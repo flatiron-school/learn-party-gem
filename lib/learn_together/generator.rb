@@ -1,51 +1,63 @@
 class Generator
-  attr_accessor :groups_of, :sort_type, :students, :final_groups
 
-  def initialize(students:, groups_of:, sort_type:)
-    @students = students
-    @groups_of= groups_of
-    @sort_type = sort_type
-    @final_groups = []
-  end
-
-  def make_groups
-    if sort_by_random?
-      form_random_groups
-    elsif sort_by_progress?
-      form_progress_based_groups
+  def initialize(students:, groups_of: nil, sort_type:, number_of_groups: nil)
+    if groups_of_n_students?
+      GroupsOfNStudents.new(students: students, groups_of: groups_of, sort_type: sort_type)
+    elsif n_number_of_groups?
     end
-    final_groups
   end
 
+  class GroupsOfNStudents
+
+    attr_accessor :groups_of, :sort_type, :students, :final_groups, :number_of_groups
+
+    def initialize(students:, groups_of:, sort_type:)
+      @students = students
+      @groups_of = groups_of
+      @sort_type = sort_type
+      @final_groups = []
+    end
   
-  def sort_by_random?
-    sort_type == "random"
-  end
 
-  def sort_by_progress?
-    sort_type == "progress"
-  end
+    def make_groups
+      if sort_by_random?
+        form_random_groups
+      elsif sort_by_progress?
+        form_progress_based_groups
+      end
+      final_groups
+    end
 
-  def form_random_groups
-    students.shuffle.each_slice(groups_of.to_i) { |students| final_groups << students }
-    check_student_distribution
-  end
+    
+    def sort_by_random?
+      sort_type == "random"
+    end
 
-  def form_progress_based_groups
-    students.sort_by {|s| s.completed_lesson_count_for_active_track}.each_slice(groups_of.to_i) { |students| final_groups << students }
-    check_student_distribution
-  end
+    def sort_by_progress?
+      sort_type == "progress"
+    end
 
-  def check_student_distribution
-    if leftover_students
-      final_groups.pop.each_with_index do |student, i|
-        final_groups["-#{i + 1}".to_i] << student
+    def form_random_groups
+      students.shuffle.each_slice(groups_of.to_i) { |students| final_groups << students }
+      check_student_distribution
+    end
+
+    def form_progress_based_groups
+      students.sort_by {|s| s.completed_lesson_count_for_active_track}.each_slice(groups_of.to_i) { |students| final_groups << students }
+      check_student_distribution
+    end
+
+    def check_student_distribution
+      if leftover_students
+        final_groups.pop.each_with_index do |student, i|
+          final_groups["-#{i + 1}".to_i] << student
+        end
       end
     end
-  end
 
-  def leftover_students
-    students.length % groups_of <=  (groups_of - 2) || students.length % groups_of == 1
+    def leftover_students
+      students.length % groups_of <=  (groups_of - 2) || students.length % groups_of == 1
+    end
   end
 
 
