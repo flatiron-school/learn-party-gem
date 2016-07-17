@@ -19,30 +19,26 @@ module LearnTogether
     end
 
     def generate_batch_students
-      if incorrect_student_object_types
-        raise StandardError.new
-      elsif student_hash_type
+      if student_hash_type
         return collection.collect {|s| OpenStruct.new(s)}
       elsif student_instance_object_type
         return collection
+      else
+        raise StudentTypeError.new
       end
     end
 
-    def incorrect_student_object_types
-      !collection.first.respond_to?(:completed_lesson_for_active_track_count) && collection.first[:completed_lesson_for_active_track_count].nil?
-    end
-
     def student_hash_type
-      !collection.first.respond_to?(:completed_lesson_for_active_track_count) && collection.first[:completed_lesson_for_active_track_count]
+      collection.first.respond_to?(:[]) && collection.first[:completed_lesson_for_active_track_count]
     end
 
     def student_instance_object_type
-      collection.first.respond_to?(:completed_lesson_for_active_track_count)
+      collection.first.respond_to?(:completed_lesson_count_for_active_track)
     end
   end
 
   class StudentTypeError < StandardError
-    def initialize(msg="student collection must contain student objects that respond to a #completed_lesson_count_for_active_track method or have a key of :completed_lesson_count_for_active_track")
+    def initialize(msg="student collection must contain student objects that respond to a #completed_lesson_count_for_active_track method or have a key of :completed_lesson_count_for_active_track_count")
       super
     end
   end

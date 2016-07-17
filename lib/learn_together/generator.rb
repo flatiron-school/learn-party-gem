@@ -37,9 +37,15 @@ class Generator
   end
 
   def check_student_distribution
-    if final_groups.last.length == 1
-      final_groups[-2] << final_groups.pop.first
+    if leftover_students
+      final_groups.pop.each_with_index do |student, i|
+        final_groups["-#{i + 1}".to_i] << student
+      end
     end
+  end
+
+  def leftover_students
+    students.length % groups_of <=  (groups_of - 2) || students.length % groups_of == 1
   end
 
 
