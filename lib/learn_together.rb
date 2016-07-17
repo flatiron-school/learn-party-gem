@@ -1,5 +1,6 @@
-require 'OStruct'
+require 'ostruct'
 require "learn_together/version"
+require 'learn_together/generator'
 
 module LearnTogether
   class GroupMaker
@@ -17,7 +18,7 @@ module LearnTogether
       @collection = collection
     end
 
-    def generate_batch_students(collection)
+    def generate_batch_students
       if incorrect_student_object_types
         raise StandardError.new
       elsif student_hash_type
@@ -41,7 +42,7 @@ module LearnTogether
   end
 
   class StudentTypeError < StandardError
-    def initialize(msg="student collection must contain student objects that respond to a #completed_lesson_for_active_track_count method or have a key of :completed_lesson_for_active_track_count")
+    def initialize(msg="student collection must contain student objects that respond to a #completed_lesson_count_for_active_track method or have a key of :completed_lesson_count_for_active_track")
       super
     end
   end

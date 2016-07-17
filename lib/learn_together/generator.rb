@@ -1,5 +1,5 @@
 class Generator
-  attr_accessor :groups_of, :sort_type, :students
+  attr_accessor :groups_of, :sort_type, :students, :final_groups
 
   def initialize(students:, groups_of:, sort_type:)
     @students = students
@@ -32,7 +32,7 @@ class Generator
   end
 
   def form_progress_based_groups
-    students.sort_by {|s| s.completed_lesson_for_active_track_count}.each_slice(groups_of.to_i) { |students| final_groups << students }
+    students.sort_by {|s| s.completed_lesson_count_for_active_track}.each_slice(groups_of.to_i) { |students| final_groups << students }
     check_student_distribution
   end
 
