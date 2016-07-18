@@ -78,34 +78,35 @@ class Generator
   end
 
   class NNumberOfGroups
-    attr_accessor :students, :number_groups, :students_per_group
+    attr_accessor :students, :number_groups, :students_per_group, :final_groups
 
     def initialize(students:, number_groups:)
       @students = students
       @number_groups = number_groups
+      @final_groups = []
     end
 
     def make_groups
-      @final_groups = []
       make_initial_distribution
-      if @final_groups.last < students_per_group
-        #[student 12, student13]
-        @final_groups.pop.each_with_index do |remaining_student, i|
-          @final_groups[i] << remaining_student
-        end
-      end
-      @final_groups
+      adjust_distribution
+      final_groups
     end
 
     def students_per_group
       @students_per_group = students.length / number_of_groups
-      # 35 / 3 = 11
-      # remainder 35 % 3 = 2
     end
 
     def make_initial_distribution
       students.each_slice(students_per_group) do |slice|
-        @final_groups  << slice
+        final_groups  << slice
+      end
+    end
+
+    def adjust_distribution
+      if final_groups.last < students_per_group && final_groups.length > number_groups
+        final_groups.pop.each_with_index do |remaining_student, i|
+          final_groups[i] << remaining_student
+        end
       end
     end
   end
@@ -114,133 +115,3 @@ class Generator
 
 end
 
-# require_relative "./table.rb"
-
-# class PairMaker
-
-#   attr_accessor :batches
-
-#   def initialize
-#     @batches = []
-#   end
-
-#   def make_pairs_random(students)
-#     students.shuffle!
-#     two_from_batch(students)
-#     make_tables
-#   end
-
-#   def make_pairs_mindful(students)
-#     sorted = sort_by_progress(students)
-#     two_from_batch(sorted)
-#     two_groups_of_two = []
-#     self.batches.each_slice(2) {|slice| two_groups_of_two << slice}
-#     mindful_batch_of_two(two_groups_of_two)
-#   end
-
-#   def make_pairs_progress(students)
-#     sorted_students = sort_by_progress(students)
-#     two_from_batch(sorted_students)
-#     make_tables
-#   end
-
-#   def make_tables_progress(students)
-#     sorted_students = sort_by_progress(students)
-#     four_from_batch(sorted_students)
-#     make_tables
-#   end
-
-#   def make_tables_random(students)
-#     students.shuffle!
-#     four_from_batch(students)
-#     make_tables
-#   end
-
-#   def make_tables_mindful(students)
-#     sorted_students = sort_by_progress(students)
-#     four_from_batch(sorted_students)
-#     two_groups_of_four = []
-#     self.batches.each_slice(2) {|slice| two_groups_of_four << slice}
-#     mindful_batch_of_four(two_groups_of_four)
-#   end
-
-#   def make_groups(num_of_groups, students)
-#     num_of_groups = students.length/num_of_groups.to_i
-#     students.shuffle.each_slice(num_of_groups).each do |slice|
-#       if slice.length == 1
-#         Table.all.last.students << slice.first
-#       else
-#         Table.new(slice)
-#       end
-#     end
-#   end
-
-#   private
-
-#     def randomize_students(students)
-#       students.collect {|student| student.name}.shuffle!
-#     end
-
-#     def sort_by_progress(students)
-#       students.sort_by! do |student| 
-#         student.progress.to_i
-#       end
-#     end
-
-#     def four_from_batch(students)
-#       students.each_slice(4) {|slice| self.batches << slice}
-#       self.batches
-#     end
-
-#     def two_from_batch(students)
-#       students.each_slice(2) {|slice| self.batches << slice}
-#       self.batches
-#     end
-
-#     def make_tables
-#       self.batches.each do |batch|
-#         Table.new(batch)
-#       end
-#     end
-
-#     def mindful_batch_of_four(students)
-#       students.each do |group|
-#         first = group[0]
-#         second = group[1]
-#         if second 
-#           last_two_first = first.values_at(-1, -2)
-#           first_two_second = second.values_at(0, 1)
-#           2.times do 
-#             first.delete_at(-1)
-#             second.delete_at(0)
-#           end
-#           first = first + first_two_second
-#           second = second + last_two_first
-#           Table.new(first)
-#           Table.new(second)
-#         else
-#           Table.new(first)
-#         end
-#       end
-#     end
-
-#     def mindful_batch_of_two(two_groups_of_two)
-#       two_groups_of_two.each do |group|
-#         if group.length >= 2
-#           first = group[0]
-#           second = group[1]
-#           first_last = first[-1]
-#           second_first = second[0]
-#           first.delete_at(-1)
-#           second.delete_at(0)
-#           first << second_first
-#           second << first_last
-#           Table.new(first)
-#           Table.new(second)
-#         else
-#           Table.new(group[0])
-#         end
-#       end
-#     end
-
-# end

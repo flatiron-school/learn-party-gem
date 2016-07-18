@@ -4,9 +4,9 @@ require 'learn_together/generator'
 
 module LearnTogether
   class GroupMaker
-    def self.run(collection:, groups_of:, sort_type:)
+    def self.run(collection:, groups_of:nil, number_of_groups:nil, sort_type:)
       students = Student.new(collection).generate_batch_students
-      @generator = Generator.new(students: students, groups_of: groups_of, sort_type: sort_type)
+      @generator = Generator.new(students: students, groups_of: groups_of, number_of_groups: number_of_groups, sort_type: sort_type)
       @generator.make_groups
     end
   end
