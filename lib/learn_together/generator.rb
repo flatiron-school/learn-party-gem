@@ -78,11 +78,11 @@ class Generator
   end
 
   class NNumberOfGroups
-    attr_accessor :students, :number_groups, :students_per_group, :final_groups
+    attr_accessor :students, :number_of_groups, :students_per_group, :final_groups
 
-    def initialize(students:, number_groups:)
+    def initialize(students:, number_of_groups:)
       @students = students
-      @number_groups = number_groups
+      @number_of_groups = number_of_groups
       @final_groups = []
     end
 
@@ -103,7 +103,7 @@ class Generator
     end
 
     def adjust_distribution
-      if final_groups.last < students_per_group && final_groups.length > number_groups
+      if final_groups.last.size < students_per_group && final_groups.length > number_of_groups
         final_groups.pop.each_with_index do |remaining_student, i|
           final_groups[i] << remaining_student
         end

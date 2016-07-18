@@ -25,15 +25,23 @@ module LearnTogether
     end
 
     def has_valid_keys?
-      !!(VALID_ARGS[:valid_keys] && options.keys == options.keys )
+      options.keys.all? {|key| VALID_ARGS[:valid_keys].include?(key)}
     end
 
     def has_valid_key_combination?
-      !(options.keys.include?("groups_of") && options.keys.include?("number"))
+      !(options.keys.include?("groups_of") && options.keys.include?("number_of_groups"))
     end
 
     def has_valid_values?
-      VALID_ARGS[:sort_type].include?(options["sort_type"]) if options["sort_type"]
+      if options["sort_type"] 
+        if VALID_ARGS[:sort_type].include?(options["sort_type"])
+          true
+        else
+          false
+        end
+      else
+        true
+      end
     end
   end
 
@@ -76,5 +84,3 @@ module LearnTogether
   end
 end
 
-
-# LearnTogether::GroupMaker.run(collection: students, group_type: "table", sort_type: "random")
