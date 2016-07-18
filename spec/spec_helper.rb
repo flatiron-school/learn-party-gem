@@ -29,7 +29,11 @@ end
 
 
 def calculate_sorted_lesson_counts(groups)
-  groups.collect {|group| group.collect {|s| s.completed_lesson_count_for_active_track}}
+  groups.collect {|group| group.collect {|s| get_student_lesson_count(s)}}
+end
+
+def get_student_lesson_count(student)
+  student.respond_to?(:completed_lesson_count_for_active_track) ? student.completed_lesson_count_for_active_track : student["completed_lesson_count_for_active_track"]
 end
 
 def groups_of_two_sorted_lesson_counts
