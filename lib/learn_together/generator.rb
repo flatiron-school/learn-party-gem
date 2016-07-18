@@ -1,10 +1,27 @@
 class Generator
+  attr_accessor :students, :groups_of, :sort_type, :number_of_groups
 
   def initialize(students:, groups_of: nil, sort_type:, number_of_groups: nil)
+    @students = students
+    @groups_of = groups_of
+    @number_of_groups = number_of_groups
+    @sort_type = sort_type
+  end
+
+  def make_groups
     if groups_of_n_students?
-      GroupsOfNStudents.new(students: students, groups_of: groups_of, sort_type: sort_type)
+      GroupsOfNStudents.new(students: students, groups_of: groups_of, sort_type: sort_type).make_groups
     elsif n_number_of_groups?
+      NNumberOfGroups.new(students: students, number_of_groups: number_of_groups).make_groups
     end
+  end
+
+  def groups_of_n_students?
+    !!groups_of
+  end
+
+  def n_number_of_groups?
+    !!number_of_groups
   end
 
   class GroupsOfNStudents
@@ -59,6 +76,40 @@ class Generator
       students.length % groups_of <=  (groups_of - 2) || students.length % groups_of == 1
     end
   end
+
+  class NNumberOfGroups
+    attr_accessor :students, :number_groups, :students_per_group
+
+    def initialize(students:, number_groups:)
+      @students = students
+      @number_groups = number_groups
+    end
+
+    def make_groups
+      @final_groups = []
+      make_initial_distribution
+      if @final_groups.last < students_per_group
+        #[student 12, student13]
+        @final_groups.pop.each_with_index do |remaining_student, i|
+          @final_groups[i] << remaining_student
+        end
+      end
+      @final_groups
+    end
+
+    def students_per_group
+      @students_per_group = students.length / number_of_groups
+      # 35 / 3 = 11
+      # remainder 35 % 3 = 2
+    end
+
+    def make_initial_distribution
+      students.each_slice(students_per_group) do |slice|
+        @final_groups  << slice
+      end
+    end
+  end
+    
 
 
 end
