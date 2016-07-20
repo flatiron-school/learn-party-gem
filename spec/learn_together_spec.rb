@@ -28,7 +28,6 @@ describe LearnTogether do
         describe "progress" do 
           students = collection_of_student_objects
           groups = LearnTogether::GroupMaker.new.run(collection: students, groups_of: 2, sort_type: "progress")
-          
           it_behaves_like "groups_of_two" do 
             let(:groups) {groups}
           end
