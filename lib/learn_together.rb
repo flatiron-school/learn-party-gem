@@ -69,7 +69,7 @@ module LearnTogether
     end
 
     def student_hash_type
-      collection.first.respond_to?(:[]) && (collection.first[:completed_lesson_count_for_active_track] || collection.first["completed_lesson_count_for_active_track"])
+      collection.first.is_a?(Hash) && (collection.first.keys.include?("completed_lesson_count_for_active_track" || :completed_lesson_count_for_active_track))
     end
 
     def student_instance_object_type
