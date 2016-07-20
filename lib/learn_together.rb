@@ -21,17 +21,13 @@ module LearnTogether
     end
 
     def validate_args
-      (has_valid_keys? && has_valid_values? && has_valid_key_combination?) ? true : (raise GroupMakerArgError.new)
+      (has_valid_keys? && has_valid_values?) ? true : (raise GroupMakerArgError.new)
     end
 
     def has_valid_keys?
       options.keys.all? {|key| VALID_ARGS[:valid_keys].include?(key)}
     end
-
-    def has_valid_key_combination?
-      !(options.keys.include?("groups_of") && options.keys.include?("number_of_groups"))
-    end
-
+    
     def has_valid_values?
       if options["sort_type"] 
         if VALID_ARGS[:sort_type].include?(options["sort_type"])

@@ -73,7 +73,7 @@ class Generator
     end
 
     def leftover_students
-      students.length % groups_of <=  (groups_of - 2) || students.length % groups_of == 1
+      students.length % groups_of.to_i <=  (groups_of.to_i - 2) || students.length % groups_of.to_i == 1
     end
   end
 

@@ -263,12 +263,6 @@ describe LearnTogether do
       end
     end 
 
-    describe "when both groups_of and number_of_groups is present" do 
-      it 'raises an error' do 
-        expect{generator.run(collection: students, groups_of: 2, number_of_groups: 4)}.to raise_error(LearnTogether::GroupMakerArgError)
-      end
-    end 
-
     describe "when sort_type has an invalid value" do 
       it 'raises an error' do 
         expect{generator.run(collection: students, groups_of: 2, sort_type: "pikachu")}.to raise_error(LearnTogether::GroupMakerArgError)
