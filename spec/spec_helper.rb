@@ -22,12 +22,23 @@ def collection_of_student_hashes
 end
 
 def load_student_json
-  f = File.open(File.expand_path ("../learn_together") + '/spec/fixtures/batch_students.json')
+  f = File.open(File.expand_path ("../learn-together-gem") + '/spec/fixtures/batch_students.json')
   json = JSON.load(f)
   JSON.parse(json)
 end
 
+def calculate_random_groups(groups)
+  groups.collect { |group| group.size }
+end
 
+
+def groups_of_two_random_from_21
+  [2,2,2,2,2,2,2,2,2,3]
+end
+
+def groups_of_two_random_from_20
+  [2,2,2,2,2,2,2,2,2,2]
+end
 def calculate_sorted_lesson_counts(groups)
   groups.collect {|group| group.collect {|s| get_student_lesson_count(s)}}
 end

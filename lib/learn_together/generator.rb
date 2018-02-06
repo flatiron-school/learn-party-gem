@@ -1,3 +1,4 @@
+require 'pry'
 class Generator
   attr_accessor :students, :groups_of, :sort_type, :number_of_groups
 
@@ -34,7 +35,7 @@ class Generator
       @sort_type = sort_type
       @final_groups = []
     end
-  
+
 
     def make_groups
       if sort_by_random?
@@ -45,7 +46,7 @@ class Generator
       final_groups
     end
 
-    
+
     def sort_by_random?
       sort_type == "random"
     end
@@ -56,7 +57,7 @@ class Generator
 
     def form_random_groups
       students.shuffle.each_slice(groups_of.to_i) { |students| final_groups << students }
-      check_student_distribution
+       check_student_distribution
     end
 
     def form_progress_based_groups
@@ -65,10 +66,25 @@ class Generator
     end
 
     def check_student_distribution
-      if leftover_students
-        final_groups.pop.each_with_index do |student, i|
-          final_groups["-#{i + 1}".to_i] << student
+      if leftover_students?
+        leftover_val = students.length % groups_of.to_i
+        if leftover_val == 1
+          student = final_groups.pop.first
+          final_groups.last << student
+        elsif leftover_val == groups_of.to_i / 2
+          final_groups.pop.each_with_index do |student, i|
+            final_groups["-#{i + 1}".to_i] << student
+          end
         end
+      else
+      end
+    end
+
+    def leftover_students?
+      if students.length % groups_of.to_i > 0
+        true
+      else
+        false
       end
     end
 
@@ -110,8 +126,7 @@ class Generator
       end
     end
   end
-    
+
 
 
 end
-
