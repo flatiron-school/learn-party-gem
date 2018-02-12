@@ -81,11 +81,7 @@ class Generator
     end
 
     def leftover_students?
-      if students.length % groups_of.to_i > 0
-        true
-      else
-        false
-      end
+      students.length % groups_of.to_i > 0
     end
 
     def leftover_students
