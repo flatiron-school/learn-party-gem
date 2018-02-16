@@ -2,7 +2,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift File.expand_path('../../spec/support', __FILE__)
 $LOAD_PATH.unshift File.expand_path('../../spec/fixtures', __FILE__)
 $LOAD_PATH.unshift File.expand_path('../../spec/shared_examples', __FILE__)
-require 'learn_together'
+require 'learn_party'
 require 'test_student'
 require 'json'
 require 'pry'
@@ -22,7 +22,7 @@ def collection_of_student_hashes
 end
 
 def load_student_json
-  f = File.open(File.expand_path ("../learn-together-gem") + '/spec/fixtures/batch_students.json')
+  f = File.open(File.expand_path ("../learn-party-gem") + '/spec/fixtures/batch_students.json')
   json = JSON.load(f)
   JSON.parse(json)
 end

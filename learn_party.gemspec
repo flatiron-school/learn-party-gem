@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'learn_together/version'
+require 'learn_party/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "learn_together_v2"
-  spec.version       = LearnTogether::VERSION
+  spec.name          = "learn_party"
+  spec.version       = LearnParty::VERSION
   spec.authors       = ["johann kerr", "sophie debenedetto"]
   spec.email         = ["johannkerr@gmail.com"]
 

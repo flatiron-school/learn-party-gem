@@ -1,9 +1,9 @@
 require 'ostruct'
-require "learn_together/version"
-require 'learn_together/generator'
+require "learn_party/version"
+require 'learn_party/generator'
 require 'active_support/core_ext/hash'
 
-module LearnTogether
+module LearnParty
   class GroupMaker
     VALID_ARGS = {
       valid_keys: ["groups_of", "collection", "sort_type", "number_of_groups"],
@@ -27,9 +27,9 @@ module LearnTogether
     def has_valid_keys?
       options.keys.all? {|key| VALID_ARGS[:valid_keys].include?(key)}
     end
-    
+
     def has_valid_values?
-      if options["sort_type"] 
+      if options["sort_type"]
         if VALID_ARGS[:sort_type].include?(options["sort_type"])
           true
         else
@@ -79,4 +79,3 @@ module LearnTogether
     end
   end
 end
-
