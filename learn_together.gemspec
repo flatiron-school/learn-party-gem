@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'learn_together/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "learn_together"
+  spec.name          = "learn_together_v2"
   spec.version       = LearnTogether::VERSION
-  spec.authors       = ["sophie debenedetto"]
-  spec.email         = ["sophie.debenedetto@gmail.com"]
+  spec.authors       = ["johann kerr", "sophie debenedetto"]
+  spec.email         = ["johannkerr@gmail.com"]
 
   spec.summary       = %q{tool for Flatiron School instructors to group students for projects}
   spec.homepage      = "https://github.com/flatiron-school/learn-together-gem"
