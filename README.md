@@ -1,4 +1,4 @@
-# LearnTogether
+# LearnParty
 
 This gem is meant to be used to group Learn student batches into groups for tables, labs and projects. 
 
@@ -7,7 +7,7 @@ This gem is meant to be used to group Learn student batches into groups for tabl
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'learn_together'
+gem 'learn_party'
 ```
 
 And then execute:
